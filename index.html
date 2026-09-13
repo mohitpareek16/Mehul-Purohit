@@ -1148,7 +1148,27 @@ nav.scrolled {
   .nav-hamburger.active span:nth-child(2) { opacity: 0 !important; }
   .nav-hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg) !important; }
 
-  .nav-overlay {
+  
+/* PREVENT BACKGROUND SCROLL WHEN MOBILE MENU IS OPEN */
+html.menu-open,
+body.menu-open {
+  overflow: hidden !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  touch-action: none !important;
+  -webkit-overflow-scrolling: auto !important;
+}
+
+.nav-links {
+  touch-action: pan-y !important;
+  overscroll-behavior: contain !important;
+}
+
+.nav-overlay {
+  touch-action: none !important;
+  overscroll-behavior: contain !important;
+}
+.nav-overlay {
     display: block !important;
     position: fixed !important;
     top: 0 !important;
@@ -2823,26 +2843,52 @@ function handleForm(e) {
   }, 1200);
 }
 
-// HAMBURGER (side nav toggle)
+// HAMBURGER (side nav toggle with background scroll lock)
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.querySelector('.nav-links');
 const navOverlay = document.getElementById('navOverlay');
 
-function toggleNav() {
-  hamburger.classList.toggle('active');
-  navLinks.classList.toggle('active');
-  if (navOverlay) navOverlay.classList.toggle('active');
+function setNavState(isOpen) {
+  if (!hamburger || !navLinks) return;
+  hamburger.classList.toggle('active', isOpen);
+  navLinks.classList.toggle('active', isOpen);
+  if (navOverlay) navOverlay.classList.toggle('active', isOpen);
+  document.body.classList.toggle('menu-open', isOpen);
+  document.documentElement.classList.toggle('menu-open', isOpen);
 }
 
-hamburger.addEventListener('click', toggleNav);
-if (navOverlay) navOverlay.addEventListener('click', toggleNav);
+function toggleNav() {
+  const isOpen = !navLinks.classList.contains('active');
+  setNavState(isOpen);
+}
 
+if (hamburger) {
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleNav();
+  });
+}
+
+if (navOverlay) {
+  navOverlay.addEventListener('click', () => setNavState(false));
+  // Prevent touch dragging on the background overlay
+  navOverlay.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+  }, { passive: false });
+}
+
+// Close when clicking any nav link
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => {
-    if (navLinks.classList.contains('active')) {
-      toggleNav();
-    }
+    setNavState(false);
   });
+});
+
+// Close when pressing Escape key
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && navLinks && navLinks.classList.contains('active')) {
+    setNavState(false);
+  }
 });
 </script>
 </body>
