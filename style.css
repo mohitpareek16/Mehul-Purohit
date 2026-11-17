@@ -527,3 +527,16 @@ img,video,svg{max-width:100%}
 .hero .portrait .pimg{position:absolute;left:0;bottom:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 20px 40px rgba(0,0,0,.6)) contrast(1.05);-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent 100%);mask-image:linear-gradient(to bottom,#000 70%,transparent 100%)}
 .hero .portrait.has-img{background:none}
 a.card.photo{text-decoration:none;color:inherit;display:block}
+
+/* hero v2: real event photography on a clean red field */
+.hero .portrait{left:0;width:58%;transform:translate3d(var(--px,0),var(--py,0),0)}
+.hero .portrait .pimg{object-fit:cover;object-position:center 22%;filter:contrast(1.06) saturate(1.05);-webkit-mask-image:none;mask-image:none;transform:scale(1.04)}
+.hero .portrait.has-img{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 62%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 62%,transparent 100%)}
+.s2 .portrait,.s3 .portrait{left:auto;right:0;width:56%}
+.s2 .portrait.has-img,.s3 .portrait.has-img{-webkit-mask-image:linear-gradient(270deg,transparent 0,#000 14%,#000 62%,transparent 100%);mask-image:linear-gradient(270deg,transparent 0,#000 14%,#000 62%,transparent 100%)}
+.s2 .h-title,.s3 .h-title{z-index:2}
+.sbg::after{background:linear-gradient(0deg,rgba(20,2,4,.55),transparent 45%)!important}
+@media(max-width:820px){.hero .portrait,.s2 .portrait,.s3 .portrait{left:0;right:0;width:100%;height:46%;bottom:auto;top:0}
+.hero .portrait.has-img,.s2 .portrait.has-img,.s3 .portrait.has-img{-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 55%,transparent 100%)}}
+.h-left{z-index:2;text-shadow:0 2px 16px rgba(20,2,4,.9)}
+.h-left::before{content:"";position:absolute;inset:-60px -80px -40px -60px;z-index:-1;background:radial-gradient(closest-side,rgba(20,2,4,.7),transparent);pointer-events:none}
